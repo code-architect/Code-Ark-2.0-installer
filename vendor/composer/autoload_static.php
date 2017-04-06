@@ -21,6 +21,10 @@ class ComposerStaticInit6f4c56da230662b5ec184ec6a15e210c
         array (
             'Psr\\Log\\' => 8,
         ),
+        'C' => 
+        array (
+            'CodeArk\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -39,6 +43,10 @@ class ComposerStaticInit6f4c56da230662b5ec184ec6a15e210c
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'CodeArk\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 

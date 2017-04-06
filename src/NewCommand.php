@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use ZipArchive;
 
 class NewCommand extends Command
 {
@@ -34,14 +35,18 @@ class NewCommand extends Command
        // assert that the folder doesn't already exists
         // geth the current directory and file name
         $directory = getcwd(). '/' .$input->getArgument('name');
+
+        $output->writeln('<comment>Downloading.......</comment>');
+
         $this->assertApplicationDoesNotExists($directory, $output);
 
        // download nightly build of code ark
-        $this->download($this->makeFileName())->extract();
-
-       // extract zip file
+        $this->download($zipFile = $this->makeFileName())
+            ->extract($zipFile, $directory) // extract zip file
+            ->cleanUp($zipFile);
 
        // alert user that they are ready to go
+        $output->writeln('<comment>Code-Ark is ready, create something awesome!</comment>');
     }
 
 
@@ -84,7 +89,32 @@ class NewCommand extends Command
     }
 
 
+    /**
+     * Extract the downloaded zip file
+     * @param $zipFile
+     * @param $directory
+     * @return $this
+     */
+    private function extract($zipFile, $directory)
+    {
+        $archive = new ZipArchive();
 
+        $archive->open($zipFile); // open the zip file
+        $archive->extractTo($directory);    // extract the file to the given directory
+
+        $archive->close();  // close the connection
+
+        return $this;
+    }
+
+
+    private function cleanUp($zipFile)
+    {
+        @chmod($zipFile, 0777);  //just in case, if we are not allowed to delete a file, and also suppress any warnings
+        @unlink($zipFile);
+
+        return $this;
+    }
 
 
 } 

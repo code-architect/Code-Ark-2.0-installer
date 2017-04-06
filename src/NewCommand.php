@@ -17,6 +17,8 @@ class NewCommand extends Command
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
+
+        parent::__construct();
     }
 
     public function configure()
@@ -35,7 +37,7 @@ class NewCommand extends Command
         $this->assertApplicationDoesNotExists($directory, $output);
 
        // download nightly build of code ark
-        $this->download()->extract();
+        $this->download($this->makeFileName())->extract();
 
        // extract zip file
 
@@ -43,7 +45,11 @@ class NewCommand extends Command
     }
 
 
-
+    /**
+     * check the given named directory if not exists
+     * @param $directory
+     * @param OutputInterface $output
+     */
     private function assertApplicationDoesNotExists($directory, OutputInterface $output)
     {
         if(is_dir($directory))
@@ -54,10 +60,27 @@ class NewCommand extends Command
     }
 
 
+    /**
+     * Generate a unique filename
+     */
+    private function makeFileName()
+    {
+        return getcwd().'/codeArk_'. md5(time().uniqid()).'.zip';
+    }
 
-    private function download()
+
+    /**
+     * Download the desired zipfile
+     * @param $zipFile
+     * @return $this
+     */
+    private function download($zipFile)
     {
         //https://github.com/code-architect/Code-Ark-2.0/archive/master.zip
+        $response = $this->client->get("http://github.com/code-architect/Code-Ark-2.0/archive/master.zip")->getBody();
+        file_put_contents($zipFile, $response);
+
+        return $this;
     }
 
 

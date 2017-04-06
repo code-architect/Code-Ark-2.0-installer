@@ -10,6 +10,6 @@ require 'vendor/autoload.php';
 
 $app = new Application('Code-Ark', '2.0');
 
-$app->add(new \CodeArk\NewCommand());
+$app->add(new \CodeArk\NewCommand(new GuzzleHttp\Client));
 
 $app->run();

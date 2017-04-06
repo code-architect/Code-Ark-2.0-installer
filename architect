@@ -8,8 +8,8 @@ use Symfony\Component\Console\Application;
 require 'vendor/autoload.php';
 
 
-$app = new Application('Code-Architect Console Tool', 1.0);
+$app = new Application('Code-Ark', '2.0');
 
-$app->add(new \CodeArk\SayHelloCommand());
+$app->add(new \CodeArk\NewCommand());
 
 $app->run();

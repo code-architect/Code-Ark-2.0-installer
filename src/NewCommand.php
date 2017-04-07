@@ -108,6 +108,11 @@ class NewCommand extends Command
     }
 
 
+    /**
+     * Delete the existing zip file
+     * @param $zipFile
+     * @return $this
+     */
     private function cleanUp($zipFile)
     {
         @chmod($zipFile, 0777);  //just in case, if we are not allowed to delete a file, and also suppress any warnings

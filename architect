@@ -1,7 +1,6 @@
 #! /usr/bin/env php
 
 <?php
-//http://symfony.com/doc/current/console/coloring.html
 
 use Symfony\Component\Console\Application;
 
